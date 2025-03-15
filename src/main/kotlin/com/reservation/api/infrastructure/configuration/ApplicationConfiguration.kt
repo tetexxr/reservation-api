@@ -1,8 +1,8 @@
 package com.reservation.api.infrastructure.configuration
 
 import com.reservation.api.application.availability.GetFreeTables
-import com.reservation.api.application.reservations.CreateReservation
 import com.reservation.api.application.reservations.CancelReservation
+import com.reservation.api.application.reservations.CreateReservation
 import com.reservation.api.application.reservations.UpdateReservation
 import com.reservation.api.domain.reservations.ReservationRepository
 import com.reservation.api.domain.reservations.ReservationTableRepository
@@ -30,7 +30,12 @@ class ApplicationConfiguration {
     ) = CreateReservation(getFreeTables, reservationRepository, reservationTableRepository, waitListRepository)
 
     @Bean
-    fun updateReservation(reservationRepository: ReservationRepository) = UpdateReservation(reservationRepository)
+    fun updateReservation(
+        getFreeTables: GetFreeTables,
+        reservationRepository: ReservationRepository,
+        reservationTableRepository: ReservationTableRepository,
+        waitListRepository: WaitListRepository
+    ) = UpdateReservation(getFreeTables, reservationRepository, reservationTableRepository, waitListRepository)
 
     @Bean
     fun cancelReservation(
