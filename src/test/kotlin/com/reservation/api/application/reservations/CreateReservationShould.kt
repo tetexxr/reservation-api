@@ -3,17 +3,17 @@ package com.reservation.api.application.reservations
 import com.reservation.api.domain.reservations.CustomerDetails
 import com.reservation.api.domain.reservations.Reservation
 import com.reservation.api.domain.reservations.ReservationRepository
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on
 import java.time.LocalDateTime
 
 class CreateReservationShould {
 
     @Test
     fun `create a reservation`() {
-        val reservationRepository = mock<ReservationRepository>()
-        val createReservation = CreateReservation(reservationRepository)
         val reservation = Reservation.create(
             date = LocalDateTime.now(),
             customerDetails = CustomerDetails(
@@ -23,10 +23,15 @@ class CreateReservationShould {
             ),
             partySize = 4
         )
+        val reservationRepository = mock<ReservationRepository> {
+            on { insert(reservation) }.thenReturn(reservation)
+        }
+        val createReservation = CreateReservation(reservationRepository)
         val command = CreateReservationCommand(reservation)
 
-        createReservation.execute(command)
+        val id = createReservation.execute(command)
 
         verify(reservationRepository).insert(reservation)
+        assertThat(id.value).isNotEmpty()
     }
 }

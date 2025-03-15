@@ -1,6 +1,7 @@
 package com.reservation.api.infrastructure.repositories
 
 import com.reservation.api.domain.reservations.Reservation
+import com.reservation.api.domain.reservations.ReservationId
 import com.reservation.api.domain.reservations.ReservationRepository
 
 class ReservationInMemoryRepository : ReservationRepository {
@@ -10,7 +11,7 @@ class ReservationInMemoryRepository : ReservationRepository {
         return reservation
     }
 
-    override fun findById(reservationId: String): Reservation? {
+    override fun findById(reservationId: ReservationId): Reservation? {
         return reservations.find { it.id == reservationId }
     }
 
