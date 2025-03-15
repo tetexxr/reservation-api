@@ -1,8 +1,8 @@
 package com.reservation.api.infrastructure.controllers.reservations
 
 import com.reservation.api.application.reservations.CreateReservation
-import com.reservation.api.application.reservations.DeleteReservation
-import com.reservation.api.application.reservations.DeleteReservationCommand
+import com.reservation.api.application.reservations.CancelReservation
+import com.reservation.api.application.reservations.CancelReservationCommand
 import com.reservation.api.application.reservations.UpdateReservation
 import com.reservation.api.domain.reservations.ReservationId
 import com.reservation.api.domain.reservations.ReservationRepository
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 class ReservationController(
     val createReservation: CreateReservation,
     val updateReservation: UpdateReservation,
-    val deleteReservation: DeleteReservation,
+    val cancelReservation: CancelReservation,
     val reservationRepository: ReservationRepository
 ) {
     @PostMapping
@@ -38,7 +38,7 @@ class ReservationController(
 
     @DeleteMapping("/{reservationId}")
     fun delete(@PathVariable reservationId: String): ResponseEntity<Any> {
-        deleteReservation.execute(DeleteReservationCommand(ReservationId(reservationId)))
+        cancelReservation.execute(CancelReservationCommand(ReservationId(reservationId)))
         return ResponseEntity.noContent().build()
     }
 

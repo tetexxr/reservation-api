@@ -7,17 +7,17 @@ import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 
-class DeleteReservationShould {
+class CancelReservationShould {
 
     @Test
-    fun `delete a reservation`() {
+    fun `cancel a reservation`() {
         val reservationId = ReservationId.new()
         val reservationRepository = mock<ReservationRepository>()
         val reservationTableRepository = mock<ReservationTableRepository>()
-        val deleteReservation = DeleteReservation(reservationRepository, reservationTableRepository)
-        val command = DeleteReservationCommand(reservationId)
+        val cancelReservation = CancelReservation(reservationRepository, reservationTableRepository)
+        val command = CancelReservationCommand(reservationId)
 
-        deleteReservation.execute(command)
+        cancelReservation.execute(command)
 
         verify(reservationRepository).delete(reservationId)
         verify(reservationTableRepository).remove(reservationId)
