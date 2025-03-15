@@ -1,6 +1,10 @@
 package com.reservation.api.acceptance
 
 import com.reservation.api.Application
+import com.reservation.api.domain.reservations.CustomerDetails
+import com.reservation.api.domain.reservations.Reservation
+import com.reservation.api.domain.reservations.ReservationId
+import com.reservation.api.domain.reservations.ReservationRepository
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -12,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.time.LocalDateTime
 
 @SpringBootTest(classes = [Application::class])
 @ActiveProfiles("integration-test")
@@ -20,6 +25,9 @@ class ReservationShould {
 
     @Autowired
     private lateinit var mvc: MockMvc
+
+    @Autowired
+    private lateinit var reservationRepository: ReservationRepository
 
     @Test
     fun `create a reservation`() {
@@ -45,6 +53,19 @@ class ReservationShould {
 
     @Test
     fun `update a reservation`() {
+        reservationRepository.insert(
+            Reservation(
+                id = ReservationId("some-reservation-id"),
+                date = LocalDateTime.parse("2021-10-10T10:00:00"),
+                customerDetails = CustomerDetails(
+                    name = "John",
+                    email = "john@test.com",
+                    phoneNumber = "931111111"
+                ),
+                partySize = 4
+            )
+        )
+
         mvc
             .perform(
                 put("/v1/reservations/{reservationId}", "some-reservation-id")
