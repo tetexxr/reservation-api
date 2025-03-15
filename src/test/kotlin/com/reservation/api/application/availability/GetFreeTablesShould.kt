@@ -4,6 +4,7 @@ import com.reservation.api.domain.reservations.CustomerDetails
 import com.reservation.api.domain.reservations.Reservation
 import com.reservation.api.domain.reservations.ReservationId
 import com.reservation.api.domain.reservations.ReservationRepository
+import com.reservation.api.domain.reservations.ReservationTableRepository
 import com.reservation.api.domain.tables.Table
 import com.reservation.api.domain.tables.TableNumber
 import com.reservation.api.domain.tables.TableRepository
@@ -15,9 +16,10 @@ import java.time.LocalDateTime
 
 class GetFreeTablesShould {
 
-    private var tableRepository = mock<TableRepository>()
-    private var reservationRepository = mock<ReservationRepository>()
-    private var getFreeTables = GetFreeTables(tableRepository, reservationRepository)
+    private val tableRepository = mock<TableRepository>()
+    private val reservationRepository = mock<ReservationRepository>()
+    private val reservationTableRepository = mock<ReservationTableRepository>()
+    private val getFreeTables = GetFreeTables(tableRepository, reservationRepository, reservationTableRepository)
 
     @Test
     fun `return all suitable tables when there are no reservations`() {
@@ -29,12 +31,12 @@ class GetFreeTablesShould {
         )
         whenever(tableRepository.findAll()).thenReturn(tables)
         whenever(reservationRepository.findAll()).thenReturn(emptyList())
-        whenever(reservationRepository.findAllReservationTables()).thenReturn(emptyMap())
+        whenever(reservationTableRepository.findAll()).thenReturn(emptyMap())
 
         val query = GetFreeTablesQuery(LocalDateTime.parse("2021-10-10T10:00:00"), 4)
         val result = getFreeTables.execute(query)
 
-        assertThat(result).containsExactlyInAnyOrder(
+        assertThat(result).containsExactly(
             Table(TableNumber(2), 4),
             Table(TableNumber(3), 4)
         )
@@ -48,7 +50,7 @@ class GetFreeTablesShould {
         )
         whenever(tableRepository.findAll()).thenReturn(tables)
         whenever(reservationRepository.findAll()).thenReturn(emptyList())
-        whenever(reservationRepository.findAllReservationTables()).thenReturn(emptyMap())
+        whenever(reservationTableRepository.findAll()).thenReturn(emptyMap())
 
         val query = GetFreeTablesQuery(LocalDateTime.parse("2021-10-10T10:00:00"), 3)
         val result = getFreeTables.execute(query)
@@ -76,7 +78,7 @@ class GetFreeTablesShould {
 
         whenever(tableRepository.findAll()).thenReturn(tables)
         whenever(reservationRepository.findAll()).thenReturn(reservations)
-        whenever(reservationRepository.findAllReservationTables()).thenReturn(reservedTables)
+        whenever(reservationTableRepository.findAll()).thenReturn(reservedTables)
 
         val query = GetFreeTablesQuery(LocalDateTime.parse("2021-10-10T10:00:00"), 4)
         val result = getFreeTables.execute(query)
@@ -92,7 +94,7 @@ class GetFreeTablesShould {
         )
         whenever(tableRepository.findAll()).thenReturn(tables)
         whenever(reservationRepository.findAll()).thenReturn(emptyList())
-        whenever(reservationRepository.findAllReservationTables()).thenReturn(emptyMap())
+        whenever(reservationTableRepository.findAll()).thenReturn(emptyMap())
 
         val query = GetFreeTablesQuery(LocalDateTime.parse("2021-10-10T10:00:00"), 8)
         val result = getFreeTables.execute(query)

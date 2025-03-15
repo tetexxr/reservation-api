@@ -3,7 +3,6 @@ package com.reservation.api.infrastructure.repositories
 import com.reservation.api.domain.reservations.Reservation
 import com.reservation.api.domain.reservations.ReservationId
 import com.reservation.api.domain.reservations.ReservationRepository
-import com.reservation.api.domain.tables.TableNumber
 
 class ReservationInMemoryRepository : ReservationRepository {
 
@@ -29,12 +28,7 @@ class ReservationInMemoryRepository : ReservationRepository {
         return reservations.toList()
     }
 
-    override fun findAllReservationTables(): Map<ReservationId, TableNumber> {
-        return reservationTables
-    }
-
     companion object {
         private val reservations = mutableListOf<Reservation>()
-        private val reservationTables = mapOf<ReservationId, TableNumber>()
     }
 }
