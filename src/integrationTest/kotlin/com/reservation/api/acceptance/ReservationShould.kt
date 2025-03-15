@@ -9,6 +9,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest(classes = [Application::class])
@@ -21,21 +22,32 @@ class ReservationShould {
 
     @Test
     fun `create a reservation`() {
-        mvc.perform(
-            post("/v1/reservations")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(
+        mvc
+            .perform(
+                post("/v1/reservations")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(
+                        """
+                        {
+                            "date": "2021-10-10T10:00:00",
+                            "name": "John",
+                            "email": "john@test.com",
+                            "phoneNumber": "931111111",
+                            "partySize": 4
+                        }
+                        """
+                    )
+            )
+            .andExpect(status().isCreated())
+            .andExpect(
+                content().json(
                     """
                     {
-                        "date": "2021-10-10T10:00:00",
-                        "name": "John",
-                        "email": "john@test.com",
-                        "phoneNumber": "931111111",
-                        "partySize": 4
+                        "reservationId": ""
                     }
                     """
                 )
-        ).andExpect(status().isCreated())
+            )
     }
 
 }
