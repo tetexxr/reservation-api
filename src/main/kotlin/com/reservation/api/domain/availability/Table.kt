@@ -1,4 +1,4 @@
-package com.reservation.api.domain.reservations
+package com.reservation.api.domain.availability
 
 data class Table(
     val number: Int,
