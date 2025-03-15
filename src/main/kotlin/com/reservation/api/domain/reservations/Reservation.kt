@@ -1,10 +1,9 @@
 package com.reservation.api.domain.reservations
 
 import java.time.LocalDateTime
-import java.util.*
 
 data class Reservation(
-    val id: String,
+    val id: ReservationId,
     val date: LocalDateTime,
     val customerDetails: CustomerDetails,
     val partySize: Int
@@ -15,7 +14,7 @@ data class Reservation(
             customerDetails: CustomerDetails,
             partySize: Int
         ) = Reservation(
-            id = UUID.randomUUID().toString(),
+            id = ReservationId.new(),
             date = date,
             customerDetails = customerDetails,
             partySize = partySize
