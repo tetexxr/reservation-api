@@ -9,6 +9,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -42,4 +43,24 @@ class ReservationShould {
             .andExpect(jsonPath("$.reservationId").isNotEmpty)
     }
 
+    @Test
+    fun `update a reservation`() {
+        mvc
+            .perform(
+                put("/v1/reservations/{reservationId}", "some-reservation-id")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(
+                        """
+                        {
+                            "date": "2021-10-10T11:00:00",
+                            "name": "John Doe",
+                            "email": "john@test.com",
+                            "phoneNumber": "931111111",
+                            "partySize": 6
+                        }
+                        """
+                    )
+            )
+            .andExpect(status().isOk())
+    }
 }
