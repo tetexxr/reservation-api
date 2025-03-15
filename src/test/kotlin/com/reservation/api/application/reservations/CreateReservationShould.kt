@@ -8,10 +8,12 @@ import com.reservation.api.domain.reservations.ReservationRepository
 import com.reservation.api.domain.reservations.ReservationTableRepository
 import com.reservation.api.domain.tables.Table
 import com.reservation.api.domain.tables.TableNumber
+import com.reservation.api.domain.waitlist.WaitListRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
 import java.time.LocalDateTime
 
 class CreateReservationShould {
@@ -35,13 +37,20 @@ class CreateReservationShould {
             on { insert(reservation) }.thenReturn(reservation)
         }
         val reservationTableRepository = mock<ReservationTableRepository>()
-        val createReservation = CreateReservation(getFreeTables, reservationRepository, reservationTableRepository)
+        val waitListRepository = mock<WaitListRepository>()
+        val createReservation = CreateReservation(
+            getFreeTables,
+            reservationRepository,
+            reservationTableRepository,
+            waitListRepository
+        )
         val command = CreateReservationCommand(reservation)
 
         val id = createReservation.execute(command)
 
         verify(reservationRepository).insert(reservation)
         verify(reservationTableRepository).add(reservation.id, TableNumber(1))
+        verifyNoInteractions(waitListRepository)
         assertThat(id.value).isNotEmpty()
     }
 }

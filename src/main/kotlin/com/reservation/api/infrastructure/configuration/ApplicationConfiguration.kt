@@ -7,6 +7,7 @@ import com.reservation.api.application.reservations.UpdateReservation
 import com.reservation.api.domain.reservations.ReservationRepository
 import com.reservation.api.domain.reservations.ReservationTableRepository
 import com.reservation.api.domain.tables.TableRepository
+import com.reservation.api.domain.waitlist.WaitListRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -24,8 +25,9 @@ class ApplicationConfiguration {
     fun createReservation(
         getFreeTables: GetFreeTables,
         reservationRepository: ReservationRepository,
-        reservationTableRepository: ReservationTableRepository
-    ) = CreateReservation(getFreeTables, reservationRepository, reservationTableRepository)
+        reservationTableRepository: ReservationTableRepository,
+        waitListRepository: WaitListRepository
+    ) = CreateReservation(getFreeTables, reservationRepository, reservationTableRepository, waitListRepository)
 
     @Bean
     fun updateReservation(reservationRepository: ReservationRepository) = UpdateReservation(reservationRepository)
