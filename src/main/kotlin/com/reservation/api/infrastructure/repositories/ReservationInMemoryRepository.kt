@@ -23,7 +23,7 @@ class ReservationInMemoryRepository : ReservationRepository {
     override fun delete(reservationId: ReservationId) {
         reservations.removeIf { it.id == reservationId }
     }
-    
+
     override fun findAll(): List<Reservation> {
         return reservations.toList()
     }

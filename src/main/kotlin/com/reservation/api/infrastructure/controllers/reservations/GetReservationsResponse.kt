@@ -9,7 +9,7 @@ data class GetReservationsResponse(
 
 data class ReservationDto(
     val id: String,
-    val date: String,
+    val time: String,
     val name: String,
     val email: String,
     val phoneNumber: String,
@@ -20,7 +20,7 @@ fun List<Reservation>.toDto(): GetReservationsResponse {
     val reservations = map {
         ReservationDto(
             id = it.id.value,
-            date = it.date.toString(),
+            time = it.time.toString(),
             name = it.customerDetails.name,
             email = it.customerDetails.email,
             phoneNumber = it.customerDetails.phoneNumber,

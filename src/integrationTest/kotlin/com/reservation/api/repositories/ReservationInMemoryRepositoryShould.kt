@@ -30,7 +30,7 @@ class ReservationInMemoryRepositoryShould {
     @Test
     fun `insert a reservation`() {
         val reservation = Reservation.create(
-            date = LocalDateTime.now(),
+            time = LocalDateTime.now(),
             customerDetails = CustomerDetails(
                 name = "John",
                 email = "john@test.com",
@@ -47,7 +47,7 @@ class ReservationInMemoryRepositoryShould {
     @Test
     fun `update a reservation`() {
         val reservation = Reservation.create(
-            date = LocalDateTime.now(),
+            time = LocalDateTime.now(),
             customerDetails = CustomerDetails(
                 name = "John",
                 email = "john@test.com",
@@ -68,7 +68,7 @@ class ReservationInMemoryRepositoryShould {
     @Test
     fun `delete a reservation`() {
         val reservation = Reservation.create(
-            date = LocalDateTime.now(),
+            time = LocalDateTime.now(),
             customerDetails = CustomerDetails(
                 name = "John",
                 email = "john@test.com",
@@ -89,7 +89,7 @@ class ReservationInMemoryRepositoryShould {
             repository.insert(
                 Reservation(
                     id = ReservationId.new(),
-                    date = LocalDateTime.parse("2021-10-1${it}T10:00:00"),
+                    time = LocalDateTime.parse("2021-10-1${it}T10:00:00"),
                     customerDetails = CustomerDetails(
                         name = "John $it",
                         email = "john-$it@test.com",
@@ -104,7 +104,7 @@ class ReservationInMemoryRepositoryShould {
 
         assertThat(reservations.size).isEqualTo(5)
         assertThat(reservations[0].customerDetails.name).isEqualTo("John 1")
-        assertThat(reservations[2].date).isEqualTo(LocalDateTime.parse("2021-10-13T10:00:00"))
+        assertThat(reservations[2].time).isEqualTo(LocalDateTime.parse("2021-10-13T10:00:00"))
         assertThat(reservations[4].customerDetails.email).isEqualTo("john-5@test.com")
     }
 }

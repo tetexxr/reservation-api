@@ -41,7 +41,7 @@ class ReservationShould {
                     .content(
                         """
                         {
-                            "date": "2021-10-10T10:00:00",
+                            "time": "2021-10-10T10:00:00",
                             "name": "John",
                             "email": "john@test.com",
                             "phoneNumber": "931111111",
@@ -59,7 +59,7 @@ class ReservationShould {
         reservationRepository.insert(
             Reservation(
                 id = ReservationId("some-reservation-id"),
-                date = LocalDateTime.parse("2021-10-10T10:00:00"),
+                time = LocalDateTime.parse("2021-10-10T10:00:00"),
                 customerDetails = CustomerDetails(
                     name = "John",
                     email = "john@test.com",
@@ -76,7 +76,7 @@ class ReservationShould {
                     .content(
                         """
                         {
-                            "date": "2021-10-10T11:00:00",
+                            "time": "2021-10-10T11:00:00",
                             "name": "John Doe",
                             "email": "john@test.com",
                             "phoneNumber": "931111111",
@@ -93,7 +93,7 @@ class ReservationShould {
         reservationRepository.insert(
             Reservation(
                 id = ReservationId("some-reservation-id"),
-                date = LocalDateTime.parse("2021-10-10T10:00:00"),
+                time = LocalDateTime.parse("2021-10-10T10:00:00"),
                 customerDetails = CustomerDetails(
                     name = "John",
                     email = "john@test.com",
@@ -118,7 +118,7 @@ class ReservationShould {
             reservationRepository.insert(
                 Reservation(
                     id = ReservationId.new(),
-                    date = LocalDateTime.parse("2021-10-10T10:00:00"),
+                    time = LocalDateTime.parse("2021-10-10T10:00:00"),
                     customerDetails = CustomerDetails(
                         name = "John $it",
                         email = "john@test.com",
