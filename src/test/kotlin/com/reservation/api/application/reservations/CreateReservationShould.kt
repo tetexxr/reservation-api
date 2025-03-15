@@ -53,4 +53,39 @@ class CreateReservationShould {
         verifyNoInteractions(waitListRepository)
         assertThat(id.value).isNotEmpty()
     }
+
+    @Test
+    fun `add reservation to waitlist when there are no free tables`() {
+        val reservation = Reservation.create(
+            time = LocalDateTime.parse("2021-10-10T10:00:00"),
+            customerDetails = CustomerDetails(
+                name = "John",
+                email = "john@test.com",
+                phoneNumber = "931111111"
+            ),
+            partySize = 4
+        )
+        val getFreeTables = mock<GetFreeTables> {
+            on { execute(GetFreeTablesQuery(reservation.time, reservation.partySize)) }.thenReturn(emptyList())
+        }
+        val reservationRepository = mock<ReservationRepository> {
+            on { insert(reservation) }.thenReturn(reservation)
+        }
+        val reservationTableRepository = mock<ReservationTableRepository>()
+        val waitListRepository = mock<WaitListRepository>()
+        val createReservation = CreateReservation(
+            getFreeTables,
+            reservationRepository,
+            reservationTableRepository,
+            waitListRepository
+        )
+        val command = CreateReservationCommand(reservation)
+
+        val id = createReservation.execute(command)
+
+        verify(reservationRepository).insert(reservation)
+        verifyNoInteractions(reservationTableRepository)
+        verify(waitListRepository).add(reservation.id)
+        assertThat(id.value).isNotEmpty()
+    }
 }
