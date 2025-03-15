@@ -7,25 +7,25 @@ import java.time.LocalDateTime
 class ReservationShould {
 
     @Test
-    fun `should overlap with begin time`() {
+    fun `overlap with begin time`() {
         val time = LocalDateTime.parse("2021-10-10T09:30:00")
         assertThat(reservation.isOverlappingWith(time)).isTrue()
     }
 
     @Test
-    fun `should overlap with end time`() {
+    fun `overlap with end time`() {
         val time = LocalDateTime.parse("2021-10-10T10:30:00")
         assertThat(reservation.isOverlappingWith(time)).isTrue()
     }
 
     @Test
-    fun `should not overlap and are earlier`() {
+    fun `not overlap and are earlier`() {
         val time = LocalDateTime.parse("2021-10-10T09:15:00")
         assertThat(reservation.isOverlappingWith(time)).isFalse()
     }
 
     @Test
-    fun `should not overlap and are later`() {
+    fun `not overlap and are later`() {
         val time = LocalDateTime.parse("2021-10-10T10:45:00")
         assertThat(reservation.isOverlappingWith(time)).isFalse()
     }
