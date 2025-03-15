@@ -31,5 +31,8 @@ class ApplicationConfiguration {
     fun updateReservation(reservationRepository: ReservationRepository) = UpdateReservation(reservationRepository)
 
     @Bean
-    fun deleteReservation(reservationRepository: ReservationRepository) = DeleteReservation(reservationRepository)
+    fun deleteReservation(
+        reservationRepository: ReservationRepository,
+        reservationTableRepository: ReservationTableRepository
+    ) = DeleteReservation(reservationRepository, reservationTableRepository)
 }
