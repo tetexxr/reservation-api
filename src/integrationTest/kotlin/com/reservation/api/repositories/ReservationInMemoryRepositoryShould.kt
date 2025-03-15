@@ -34,4 +34,25 @@ class ReservationInMemoryRepositoryShould {
 
         assertThat(repository.findById(reservation.id)).isEqualTo(reservation)
     }
+
+    @Test
+    fun `update a reservation`() {
+        val reservation = Reservation.create(
+            date = LocalDateTime.now(),
+            customerDetails = CustomerDetails(
+                name = "John",
+                email = "john@test.com",
+                phoneNumber = "931111111"
+            ),
+            partySize = 4
+        )
+        repository.insert(reservation)
+
+        val updatedReservation = reservation.copy(
+            customerDetails = reservation.customerDetails.copy(name = "John Doe")
+        )
+        repository.update(updatedReservation)
+
+        assertThat(repository.findById(reservation.id)?.customerDetails?.name).isEqualTo("John Doe")
+    }
 }
