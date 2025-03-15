@@ -20,6 +20,10 @@ class ReservationInMemoryRepository : ReservationRepository {
         reservations[index] = reservation
     }
 
+    override fun delete(reservationId: ReservationId) {
+        reservations.removeIf { it.id == reservationId }
+    }
+
     companion object {
         private val reservations = mutableListOf<Reservation>()
     }

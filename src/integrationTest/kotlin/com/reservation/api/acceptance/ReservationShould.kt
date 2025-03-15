@@ -5,6 +5,7 @@ import com.reservation.api.domain.reservations.CustomerDetails
 import com.reservation.api.domain.reservations.Reservation
 import com.reservation.api.domain.reservations.ReservationId
 import com.reservation.api.domain.reservations.ReservationRepository
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -83,5 +85,29 @@ class ReservationShould {
                     )
             )
             .andExpect(status().isOk())
+    }
+
+    @Test
+    fun `delete a reservation`() {
+        reservationRepository.insert(
+            Reservation(
+                id = ReservationId("some-reservation-id"),
+                date = LocalDateTime.parse("2021-10-10T10:00:00"),
+                customerDetails = CustomerDetails(
+                    name = "John",
+                    email = "john@test.com",
+                    phoneNumber = "931111111"
+                ),
+                partySize = 4
+            )
+        )
+
+        mvc
+            .perform(
+                delete("/v1/reservations/{reservationId}", "some-reservation-id")
+            )
+            .andExpect(status().isNoContent())
+
+        assertThat(reservationRepository.findById(ReservationId("some-reservation-id"))).isNull()
     }
 }

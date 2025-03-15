@@ -55,4 +55,22 @@ class ReservationInMemoryRepositoryShould {
 
         assertThat(repository.findById(reservation.id)?.customerDetails?.name).isEqualTo("John Doe")
     }
+
+    @Test
+    fun `delete a reservation`() {
+        val reservation = Reservation.create(
+            date = LocalDateTime.now(),
+            customerDetails = CustomerDetails(
+                name = "John",
+                email = "john@test.com",
+                phoneNumber = "931111111"
+            ),
+            partySize = 4
+        )
+        repository.insert(reservation)
+
+        repository.delete(reservation.id)
+
+        assertThat(repository.findById(reservation.id)).isNull()
+    }
 }
