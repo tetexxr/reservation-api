@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on
 import java.time.LocalDateTime
 
 class CreateReservationShould {
@@ -15,7 +14,7 @@ class CreateReservationShould {
     @Test
     fun `create a reservation`() {
         val reservation = Reservation.create(
-            date = LocalDateTime.now(),
+            time = LocalDateTime.now(),
             customerDetails = CustomerDetails(
                 name = "John",
                 email = "john@test.com",

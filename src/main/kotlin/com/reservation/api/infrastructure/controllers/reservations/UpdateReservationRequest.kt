@@ -7,7 +7,7 @@ import com.reservation.api.domain.reservations.ReservationId
 import java.time.LocalDateTime
 
 data class UpdateReservationRequest(
-    val date: LocalDateTime,
+    val time: LocalDateTime,
     val name: String,
     val email: String,
     val phoneNumber: String,
@@ -17,7 +17,7 @@ data class UpdateReservationRequest(
 fun UpdateReservationRequest.toCommand(reservationId: ReservationId) = UpdateReservationCommand(
     reservation = Reservation(
         id = reservationId,
-        date = date,
+        time = time,
         customerDetails = CustomerDetails(
             name = name,
             email = email,

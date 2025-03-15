@@ -13,7 +13,7 @@ class UpdateReservationShould {
     @Test
     fun `update a reservation`() {
         val reservation = Reservation.create(
-            date = LocalDateTime.now(),
+            time = LocalDateTime.now(),
             customerDetails = CustomerDetails(
                 name = "John",
                 email = "john@test.com",

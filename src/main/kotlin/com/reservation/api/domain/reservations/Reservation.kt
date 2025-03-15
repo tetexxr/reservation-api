@@ -4,18 +4,18 @@ import java.time.LocalDateTime
 
 data class Reservation(
     val id: ReservationId,
-    val date: LocalDateTime,
+    val time: LocalDateTime,
     val customerDetails: CustomerDetails,
     val partySize: Int
 ) {
     companion object {
         fun create(
-            date: LocalDateTime,
+            time: LocalDateTime,
             customerDetails: CustomerDetails,
             partySize: Int
         ) = Reservation(
             id = ReservationId.new(),
-            date = date,
+            time = time,
             customerDetails = customerDetails,
             partySize = partySize
         )
