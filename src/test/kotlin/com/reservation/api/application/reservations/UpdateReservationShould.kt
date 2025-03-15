@@ -21,9 +21,7 @@ class UpdateReservationShould {
             ),
             partySize = 4
         )
-        val reservationRepository = mock<ReservationRepository> {
-            on { insert(reservation) }.thenReturn(reservation)
-        }
+        val reservationRepository = mock<ReservationRepository>()
         val updateReservation = UpdateReservation(reservationRepository)
         val command = UpdateReservationCommand(reservation)
 
