@@ -14,6 +14,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -109,5 +110,31 @@ class ReservationShould {
             .andExpect(status().isNoContent())
 
         assertThat(reservationRepository.findById(ReservationId("some-reservation-id"))).isNull()
+    }
+
+    @Test
+    fun `get all reservations`() {
+        (1..5).forEach {
+            reservationRepository.insert(
+                Reservation(
+                    id = ReservationId.new(),
+                    date = LocalDateTime.parse("2021-10-10T10:00:00"),
+                    customerDetails = CustomerDetails(
+                        name = "John $it",
+                        email = "john@test.com",
+                        phoneNumber = "931111111"
+                    ),
+                    partySize = 4
+                )
+            )
+        }
+
+        mvc
+            .perform(get("/v1/reservations"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.items.size()").value(5))
+            .andExpect(jsonPath("$.total").value(5))
+            .andExpect(jsonPath("$.items[0].name").value("John 1"))
+            .andExpect(jsonPath("$.items[4].name").value("John 5"))
     }
 }
