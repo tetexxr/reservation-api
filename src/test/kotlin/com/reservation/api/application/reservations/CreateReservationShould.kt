@@ -27,6 +27,6 @@ class CreateReservationShould {
 
         createReservation.execute(command)
 
-        verify(reservationRepository).create(reservation)
+        verify(reservationRepository).insert(reservation)
     }
 }

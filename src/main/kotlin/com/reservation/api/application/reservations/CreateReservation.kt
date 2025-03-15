@@ -6,7 +6,7 @@ class CreateReservation(
     private val reservationRepository: ReservationRepository
 ) {
     fun execute(command: CreateReservationCommand) {
-        reservationRepository.create(command.reservation)
+        reservationRepository.insert(command.reservation)
         // Send metrics to monitoring system
         // Send notification to customer
         // Other stuff
