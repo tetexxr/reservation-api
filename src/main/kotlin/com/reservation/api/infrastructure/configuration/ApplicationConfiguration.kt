@@ -40,6 +40,7 @@ class ApplicationConfiguration {
     @Bean
     fun cancelReservation(
         reservationRepository: ReservationRepository,
-        reservationTableRepository: ReservationTableRepository
-    ) = CancelReservation(reservationRepository, reservationTableRepository)
+        reservationTableRepository: ReservationTableRepository,
+        waitListRepository: WaitListRepository
+    ) = CancelReservation(reservationRepository, reservationTableRepository, waitListRepository)
 }
