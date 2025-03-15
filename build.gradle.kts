@@ -18,6 +18,11 @@ repositories {
 	mavenCentral()
 }
 
+val integrationTest = sourceSets.create("integrationTest") {
+	compileClasspath += sourceSets.main.get().output + configurations.testRuntimeClasspath.get()
+	runtimeClasspath += output + compileClasspath
+}
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-web")
@@ -38,3 +43,20 @@ kotlin {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+tasks.register<Test>("integrationTest") {
+	description = "Runs integration tests."
+	group = "verification"
+
+	testClassesDirs = integrationTest.output.classesDirs
+	classpath = integrationTest.runtimeClasspath
+	shouldRunAfter("test")
+
+	useJUnitPlatform()
+
+	testLogging {
+		events("passed", "skipped", "failed")
+	}
+}
+
+tasks.check { dependsOn("integrationTest") }
