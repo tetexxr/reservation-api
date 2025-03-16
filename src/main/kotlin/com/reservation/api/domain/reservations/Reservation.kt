@@ -8,7 +8,7 @@ data class Reservation(
     val customerDetails: CustomerDetails,
     val partySize: Int
 ) {
-    private val endTime: LocalDateTime
+    val endTime: LocalDateTime
         get() = time.plusMinutes(RESERVATION_DURATION_MINUTES)
 
     fun isOverlappingWith(otherTime: LocalDateTime): Boolean {
@@ -17,7 +17,7 @@ data class Reservation(
     }
 
     companion object {
-        private const val RESERVATION_DURATION_MINUTES: Long = 45
+        const val RESERVATION_DURATION_MINUTES: Long = 45
         fun create(
             time: LocalDateTime,
             customerDetails: CustomerDetails,

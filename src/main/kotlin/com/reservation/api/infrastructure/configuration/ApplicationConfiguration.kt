@@ -5,6 +5,7 @@ import com.reservation.api.application.notifications.SendNotification
 import com.reservation.api.application.reservations.CancelReservation
 import com.reservation.api.application.reservations.CreateReservation
 import com.reservation.api.application.reservations.UpdateReservation
+import com.reservation.api.application.waitlist.PromoteWaitList
 import com.reservation.api.domain.notifications.NotificationRepository
 import com.reservation.api.domain.reservations.ReservationRepository
 import com.reservation.api.domain.reservations.ReservationTableRepository
@@ -43,8 +44,9 @@ class ApplicationConfiguration {
     fun cancelReservation(
         reservationRepository: ReservationRepository,
         reservationTableRepository: ReservationTableRepository,
-        waitListRepository: WaitListRepository
-    ) = CancelReservation(reservationRepository, reservationTableRepository, waitListRepository)
+        waitListRepository: WaitListRepository,
+        promoteWaitList: PromoteWaitList
+    ) = CancelReservation(reservationRepository, reservationTableRepository, waitListRepository, promoteWaitList)
 
     @Bean
     fun sendNotification(
@@ -52,4 +54,12 @@ class ApplicationConfiguration {
         reservationTableRepository: ReservationTableRepository,
         notificationRepository: NotificationRepository
     ) = SendNotification(reservationRepository, reservationTableRepository, notificationRepository)
+
+    @Bean
+    fun promoteWaitList(
+        getFreeTables: GetFreeTables,
+        reservationRepository: ReservationRepository,
+        reservationTableRepository: ReservationTableRepository,
+        waitListRepository: WaitListRepository
+    ) = PromoteWaitList(getFreeTables, reservationRepository, reservationTableRepository, waitListRepository)
 }

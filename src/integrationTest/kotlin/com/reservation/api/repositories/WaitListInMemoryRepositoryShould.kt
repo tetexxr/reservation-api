@@ -38,9 +38,10 @@ class WaitListInMemoryRepositoryShould {
         val reservationId = ReservationId.new()
         repository.add(reservationId)
 
-        repository.remove(reservationId)
+        val isRemoved = repository.remove(reservationId)
 
         assertThat(repository.findAll()).isEmpty()
+        assertThat(isRemoved).isTrue()
     }
 
     @Test

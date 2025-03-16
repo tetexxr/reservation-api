@@ -9,7 +9,7 @@ import com.reservation.api.domain.tables.TableNumber
 import com.reservation.api.domain.tables.TableRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
+import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import java.time.LocalDateTime
 
