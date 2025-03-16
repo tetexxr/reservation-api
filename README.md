@@ -12,6 +12,11 @@ To run the tests, execute the following command:
 ./gradlew test integrationTest
 ```
 
+For a complete built and to force all the tasks to run, execute the following command:
+```bash
+./gradlew build --rerun-tasks
+```
+
 ## Run
 
 To run the project, execute the following command:
