@@ -1,6 +1,7 @@
 package com.reservation.api.infrastructure.controllers.availability
 
 import com.reservation.api.domain.availability.AvailableSlot
+import java.time.LocalDateTime
 
 data class GetAvailableSlotsResponse(
     val items: List<AvailableSlotDto>,
@@ -8,16 +9,16 @@ data class GetAvailableSlotsResponse(
 )
 
 data class AvailableSlotDto(
-    val from: String,
-    val to: String,
+    val from: LocalDateTime,
+    val to: LocalDateTime,
     val tableNumber: Int
 )
 
 fun List<AvailableSlot>.toDto(): GetAvailableSlotsResponse {
     val availableSlots = map {
         AvailableSlotDto(
-            from = it.from.toString(),
-            to = it.to.toString(),
+            from = it.from,
+            to = it.to,
             tableNumber = it.tableNumber.value
         )
     }
