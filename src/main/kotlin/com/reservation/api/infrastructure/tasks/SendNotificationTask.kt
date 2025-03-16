@@ -1,14 +1,15 @@
 package com.reservation.api.infrastructure.tasks
 
+import com.reservation.api.application.notifications.SendNotification
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import java.time.LocalDateTime
 
 @Component
-class SendNotificationTask {
-
+class SendNotificationTask(
+    private val sendNotification: SendNotification
+) {
     @Scheduled(cron = "0 * * * * ?")
     fun execute() {
-        println("Checking to send notification every minute: ${LocalDateTime.now()}")
+        sendNotification.execute()
     }
 }
