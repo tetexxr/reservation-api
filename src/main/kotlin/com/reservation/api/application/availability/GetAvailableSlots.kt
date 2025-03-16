@@ -30,7 +30,7 @@ class GetAvailableSlots(
             while (slotTime.plusMinutes(SLOT_DURATION) <= closing) {
                 val slotEndTime = slotTime.plusMinutes(SLOT_DURATION)
                 val slotFilter: (Reservation) -> Boolean = {
-                    (slotTime.isBefore(it.endTime) && slotEndTime.isAfter(it.time) && reservationTables[it.id] == table.number)
+                    slotTime.isBefore(it.endTime) && slotEndTime.isAfter(it.time) && reservationTables[it.id] == table.number
                 }
                 val isSlotAvailable = reservations.none { slotFilter(it) }
                 if (isSlotAvailable) {
