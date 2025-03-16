@@ -93,6 +93,66 @@ class GetAvailableSlotsShould {
         assertThat(availableSlots).isEmpty()
     }
 
+    @Test
+    fun `return slots when there are some reservations`() {
+        val tables = listOf(
+            Table(TableNumber(1), 4)
+        )
+        val opening = LocalDateTime.parse("2021-10-10T08:00:00")
+        val reservations = (0..23).map {
+            val time = opening.plusHours(it.toLong())
+            reservationAt(time)
+        }
+        val reservedTables = reservations.map { it.id }.associateWith { TableNumber(1) }
+
+        whenever(tableRepository.findAll()).thenReturn(tables)
+        whenever(reservationRepository.findAll()).thenReturn(reservations)
+        whenever(reservationTableRepository.findAll()).thenReturn(reservedTables)
+
+        val query = GetAvailableSlotsQuery(LocalDate.parse("2021-10-10"), 4)
+        val availableSlots = getAvailableSlots.execute(query)
+
+        assertThat(availableSlots).hasSize(6) // One slot per hour
+        assertThat(availableSlots).containsExactly(
+            AvailableSlot(
+                LocalDateTime.parse("2021-10-10T08:45:00"),
+                LocalDateTime.parse("2021-10-10T09:00:00"),
+                4,
+                TableNumber(1)
+            ),
+            AvailableSlot(
+                LocalDateTime.parse("2021-10-10T09:45:00"),
+                LocalDateTime.parse("2021-10-10T10:00:00"),
+                4,
+                TableNumber(1)
+            ),
+            AvailableSlot(
+                LocalDateTime.parse("2021-10-10T10:45:00"),
+                LocalDateTime.parse("2021-10-10T11:00:00"),
+                4,
+                TableNumber(1)
+            ),
+            AvailableSlot(
+                LocalDateTime.parse("2021-10-10T11:45:00"),
+                LocalDateTime.parse("2021-10-10T12:00:00"),
+                4,
+                TableNumber(1)
+            ),
+            AvailableSlot(
+                LocalDateTime.parse("2021-10-10T12:45:00"),
+                LocalDateTime.parse("2021-10-10T13:00:00"),
+                4,
+                TableNumber(1)
+            ),
+            AvailableSlot(
+                LocalDateTime.parse("2021-10-10T13:45:00"),
+                LocalDateTime.parse("2021-10-10T14:00:00"),
+                4,
+                TableNumber(1)
+            )
+        )
+    }
+
     companion object {
         private fun reservationAt(time: LocalDateTime) = Reservation.create(
             time = time,
