@@ -7,7 +7,6 @@ import com.reservation.api.domain.reservations.ReservationRepository
 import com.reservation.api.domain.reservations.ReservationTableRepository
 import com.reservation.api.domain.tables.TableNumber
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.verifyNoMoreInteractions
