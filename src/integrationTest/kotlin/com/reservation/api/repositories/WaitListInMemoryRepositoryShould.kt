@@ -2,6 +2,7 @@ package com.reservation.api.repositories
 
 import com.reservation.api.Application
 import com.reservation.api.domain.reservations.ReservationId
+import com.reservation.api.helpers.Cleaner
 import com.reservation.api.infrastructure.repositories.WaitListInMemoryRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -17,11 +18,12 @@ class WaitListInMemoryRepositoryShould {
     @Autowired
     private lateinit var repository: WaitListInMemoryRepository
 
+    @Autowired
+    private lateinit var cleaner: Cleaner
+
     @BeforeEach
     fun setUp() {
-        repository.findAll().forEach {
-            repository.remove(it)
-        }
+        cleaner.execute()
     }
 
     @Test

@@ -5,8 +5,7 @@ import com.reservation.api.application.reservations.CreateReservation
 import com.reservation.api.application.reservations.CreateReservationCommand
 import com.reservation.api.domain.reservations.CustomerDetails
 import com.reservation.api.domain.reservations.Reservation
-import com.reservation.api.domain.reservations.ReservationRepository
-import com.reservation.api.domain.reservations.ReservationTableRepository
+import com.reservation.api.helpers.Cleaner
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,19 +31,11 @@ class AvailabilityShould {
     private lateinit var createReservation: CreateReservation
 
     @Autowired
-    private lateinit var reservationRepository: ReservationRepository
-
-    @Autowired
-    private lateinit var reservationTableRepository: ReservationTableRepository
+    private lateinit var cleaner: Cleaner
 
     @BeforeEach
     fun setUp() {
-        reservationRepository.findAll().forEach {
-            reservationRepository.delete(it.id)
-        }
-        reservationTableRepository.findAll().forEach {
-            reservationTableRepository.remove(it.key)
-        }
+        cleaner.execute()
     }
 
     @Test

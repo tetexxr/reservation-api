@@ -5,7 +5,9 @@ import com.reservation.api.domain.reservations.CustomerDetails
 import com.reservation.api.domain.reservations.Reservation
 import com.reservation.api.domain.reservations.ReservationId
 import com.reservation.api.domain.reservations.ReservationRepository
+import com.reservation.api.helpers.Cleaner
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -31,6 +33,14 @@ class ReservationShould {
 
     @Autowired
     private lateinit var reservationRepository: ReservationRepository
+
+    @Autowired
+    private lateinit var cleaner: Cleaner
+
+    @BeforeEach
+    fun setUp() {
+        cleaner.execute()
+    }
 
     @Test
     fun `create a reservation`() {
