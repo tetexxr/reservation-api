@@ -1,5 +1,6 @@
 package com.reservation.api.infrastructure.configuration
 
+import com.reservation.api.application.availability.GetAvailableSlots
 import com.reservation.api.application.availability.GetFreeTables
 import com.reservation.api.application.notifications.SendNotification
 import com.reservation.api.application.reservations.CancelReservation
@@ -62,4 +63,11 @@ class ApplicationConfiguration {
         reservationTableRepository: ReservationTableRepository,
         waitListRepository: WaitListRepository
     ) = PromoteWaitList(getFreeTables, reservationRepository, reservationTableRepository, waitListRepository)
+
+    @Bean
+    fun getAvailableSlots(
+        tableRepository: TableRepository,
+        reservationRepository: ReservationRepository,
+        reservationTableRepository: ReservationTableRepository
+    ) = GetAvailableSlots(tableRepository, reservationRepository, reservationTableRepository)
 }
