@@ -13,7 +13,7 @@ data class Reservation(
 
     fun isOverlappingWith(otherTime: LocalDateTime): Boolean {
         val otherEndTime = otherTime.plusMinutes(RESERVATION_DURATION_MINUTES)
-        return time.isBetween(otherTime, otherEndTime) || endTime.isBetween(otherTime, otherEndTime)
+        return otherTime >= time && otherTime < endTime || otherEndTime > time && otherEndTime <= endTime
     }
 
     companion object {
@@ -36,7 +36,3 @@ data class CustomerDetails(
     val email: String,
     val phoneNumber: String
 )
-
-fun LocalDateTime.isBetween(start: LocalDateTime, end: LocalDateTime): Boolean {
-    return this.isAfter(start) && this.isBefore(end)
-}
