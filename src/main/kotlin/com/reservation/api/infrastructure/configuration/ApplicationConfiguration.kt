@@ -1,9 +1,11 @@
 package com.reservation.api.infrastructure.configuration
 
 import com.reservation.api.application.availability.GetFreeTables
+import com.reservation.api.application.notifications.SendNotification
 import com.reservation.api.application.reservations.CancelReservation
 import com.reservation.api.application.reservations.CreateReservation
 import com.reservation.api.application.reservations.UpdateReservation
+import com.reservation.api.domain.notifications.NotificationRepository
 import com.reservation.api.domain.reservations.ReservationRepository
 import com.reservation.api.domain.reservations.ReservationTableRepository
 import com.reservation.api.domain.tables.TableRepository
@@ -43,4 +45,11 @@ class ApplicationConfiguration {
         reservationTableRepository: ReservationTableRepository,
         waitListRepository: WaitListRepository
     ) = CancelReservation(reservationRepository, reservationTableRepository, waitListRepository)
+
+    @Bean
+    fun sendNotification(
+        reservationRepository: ReservationRepository,
+        reservationTableRepository: ReservationTableRepository,
+        notificationRepository: NotificationRepository
+    ) = SendNotification(reservationRepository, reservationTableRepository, notificationRepository)
 }
