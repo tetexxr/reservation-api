@@ -58,7 +58,7 @@ class ReservationShould {
     fun `update a reservation`() {
         reservationRepository.insert(
             Reservation(
-                id = ReservationId("some-reservation-id"),
+                id = ReservationId("reservation-id-1"),
                 time = LocalDateTime.parse("2021-10-10T10:00:00"),
                 customerDetails = CustomerDetails(
                     name = "John",
@@ -71,7 +71,7 @@ class ReservationShould {
 
         mvc
             .perform(
-                put("/v1/reservations/{reservationId}", "some-reservation-id")
+                put("/v1/reservations/{reservationId}", "reservation-id-1")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         """
@@ -92,7 +92,7 @@ class ReservationShould {
     fun `delete a reservation`() {
         reservationRepository.insert(
             Reservation(
-                id = ReservationId("some-reservation-id"),
+                id = ReservationId("reservation-id-2"),
                 time = LocalDateTime.parse("2021-10-10T10:00:00"),
                 customerDetails = CustomerDetails(
                     name = "John",
@@ -105,7 +105,7 @@ class ReservationShould {
 
         mvc
             .perform(
-                delete("/v1/reservations/{reservationId}", "some-reservation-id")
+                delete("/v1/reservations/{reservationId}", "reservation-id-2")
             )
             .andExpect(status().isNoContent())
 
