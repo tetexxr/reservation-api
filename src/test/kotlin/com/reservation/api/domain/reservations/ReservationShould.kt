@@ -31,8 +31,7 @@ class ReservationShould {
     }
 
     companion object {
-        private val reservation = Reservation(
-            id = ReservationId.new(),
+        private val reservation = Reservation.create(
             time = LocalDateTime.parse("2021-10-10T10:00:00"),
             customerDetails = CustomerDetails("John", "john@test.com", "931111111"),
             partySize = 4

@@ -3,7 +3,6 @@ package com.reservation.api.repositories
 import com.reservation.api.Application
 import com.reservation.api.domain.reservations.CustomerDetails
 import com.reservation.api.domain.reservations.Reservation
-import com.reservation.api.domain.reservations.ReservationId
 import com.reservation.api.infrastructure.repositories.ReservationInMemoryRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -87,8 +86,7 @@ class ReservationInMemoryRepositoryShould {
     fun `retrieve all reservations`() {
         (1..5).forEach {
             repository.insert(
-                Reservation(
-                    id = ReservationId.new(),
+                Reservation.create(
                     time = LocalDateTime.parse("2021-10-1${it}T10:00:00"),
                     customerDetails = CustomerDetails(
                         name = "John $it",

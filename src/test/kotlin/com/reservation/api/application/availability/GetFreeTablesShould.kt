@@ -2,7 +2,6 @@ package com.reservation.api.application.availability
 
 import com.reservation.api.domain.reservations.CustomerDetails
 import com.reservation.api.domain.reservations.Reservation
-import com.reservation.api.domain.reservations.ReservationId
 import com.reservation.api.domain.reservations.ReservationRepository
 import com.reservation.api.domain.reservations.ReservationTableRepository
 import com.reservation.api.domain.tables.Table
@@ -67,8 +66,7 @@ class GetFreeTablesShould {
             Table(TableNumber(2), 6)
         )
         val reservations = listOf(
-            Reservation(
-                ReservationId.new(),
+            Reservation.create(
                 LocalDateTime.parse("2021-10-10T10:00:00"),
                 CustomerDetails("John", "john@test.com", "931111111"),
                 4
