@@ -153,6 +153,51 @@ class GetAvailableSlotsShould {
         )
     }
 
+    @Test
+    fun `handle reservations that do not align with 15 minute slots`() {
+        val tables = listOf(
+            Table(TableNumber(1), 4)
+        )
+        val reservations = listOf(
+            reservationAt(LocalDateTime.parse("2021-10-10T08:00:00")),
+            reservationAt(LocalDateTime.parse("2021-10-10T08:55:00")),
+            reservationAt(LocalDateTime.parse("2021-10-10T09:55:00")),
+            reservationAt(LocalDateTime.parse("2021-10-10T10:45:00")),
+            reservationAt(LocalDateTime.parse("2021-10-10T11:37:00")),
+            reservationAt(LocalDateTime.parse("2021-10-10T12:50:00"))
+        )
+        val reservedTables = reservations.map { it.id }.associateWith { TableNumber(1) }
+
+        whenever(tableRepository.findAll()).thenReturn(tables)
+        whenever(reservationRepository.findAll()).thenReturn(reservations)
+        whenever(reservationTableRepository.findAll()).thenReturn(reservedTables)
+
+        val query = GetAvailableSlotsQuery(LocalDate.parse("2021-10-10"), 4)
+        val availableSlots = getAvailableSlots.execute(query)
+
+        assertThat(availableSlots).hasSize(3)
+        assertThat(availableSlots).containsExactly(
+            AvailableSlot(
+                LocalDateTime.parse("2021-10-10T09:40:00"),
+                LocalDateTime.parse("2021-10-10T09:55:00"),
+                4,
+                TableNumber(1)
+            ),
+            AvailableSlot(
+                LocalDateTime.parse("2021-10-10T12:22:00"),
+                LocalDateTime.parse("2021-10-10T12:37:00"),
+                4,
+                TableNumber(1)
+            ),
+            AvailableSlot(
+                LocalDateTime.parse("2021-10-10T13:35:00"),
+                LocalDateTime.parse("2021-10-10T13:50:00"),
+                4,
+                TableNumber(1)
+            )
+        )
+    }
+
     companion object {
         private fun reservationAt(time: LocalDateTime) = Reservation.create(
             time = time,

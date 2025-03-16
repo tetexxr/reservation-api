@@ -1,6 +1,7 @@
 package com.reservation.api.application.availability
 
 import com.reservation.api.domain.availability.AvailableSlot
+import com.reservation.api.domain.reservations.Reservation
 import com.reservation.api.domain.reservations.ReservationRepository
 import com.reservation.api.domain.reservations.ReservationTableRepository
 import com.reservation.api.domain.tables.TableRepository
@@ -25,22 +26,20 @@ class GetAvailableSlots(
         val availableSlots = mutableListOf<AvailableSlot>()
 
         tables.forEach { table ->
-            var currentTime = opening
-            while (currentTime.isBefore(closing)) {
-                val slotEndTime = currentTime.plusMinutes(SLOT_DURATION)
-                val isSlotAvailable = reservations.none {
-                    currentTime.isBefore(it.endTime)
-                            && slotEndTime.isAfter(it.time)
-                            && reservationTables[it.id] == table.number
+            var slotTime = opening
+            while (slotTime.plusMinutes(SLOT_DURATION) <= closing) {
+                val slotEndTime = slotTime.plusMinutes(SLOT_DURATION)
+                val slotFilter: (Reservation) -> Boolean = {
+                    (slotTime.isBefore(it.endTime) && slotEndTime.isAfter(it.time) && reservationTables[it.id] == table.number)
                 }
+                val isSlotAvailable = reservations.none { slotFilter(it) }
                 if (isSlotAvailable) {
-                    availableSlots.add(AvailableSlot(currentTime, slotEndTime, query.partySize, table.number))
+                    availableSlots.add(AvailableSlot(slotTime, slotEndTime, query.partySize, table.number))
+                    slotTime = slotEndTime
                 } else {
-                    currentTime = reservations
-                        .filter { reservationTables[it.id] == table.number && it.time.isAfter(currentTime) }
-                        .minOfOrNull { it.endTime } ?: slotEndTime
+                    val endTime = reservations.single { slotFilter(it) }.endTime
+                    slotTime = endTime
                 }
-                currentTime = slotEndTime
             }
         }
 
