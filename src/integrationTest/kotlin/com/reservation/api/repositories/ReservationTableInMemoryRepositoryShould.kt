@@ -3,6 +3,7 @@ package com.reservation.api.repositories
 import com.reservation.api.Application
 import com.reservation.api.domain.reservations.ReservationId
 import com.reservation.api.domain.tables.TableNumber
+import com.reservation.api.helpers.Cleaner
 import com.reservation.api.infrastructure.repositories.ReservationTableInMemoryRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -18,11 +19,12 @@ class ReservationTableInMemoryRepositoryShould {
     @Autowired
     private lateinit var repository: ReservationTableInMemoryRepository
 
+    @Autowired
+    private lateinit var cleaner: Cleaner
+
     @BeforeEach
     fun setUp() {
-        repository.findAll().keys.forEach {
-            repository.remove(it)
-        }
+        cleaner.execute()
     }
 
     @Test
