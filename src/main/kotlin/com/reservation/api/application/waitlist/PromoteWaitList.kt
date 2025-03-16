@@ -14,6 +14,9 @@ class PromoteWaitList(
 ) {
     fun execute(command: PromoteWaitListCommand) {
         val waitList = waitListRepository.findAll()
+        if (waitList.isEmpty()) {
+            return
+        }
         val reservationsWaiting = reservationRepository.findAll()
             .filter {
                 it.time.isAfter(command.from) && it.endTime.isBefore(command.to) && it.partySize <= command.maximumSeatingCapacity

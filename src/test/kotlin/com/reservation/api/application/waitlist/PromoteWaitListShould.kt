@@ -125,4 +125,20 @@ class PromoteWaitListShould {
         verify(reservationTableRepository, never()).add(reservation.id, TableNumber(1))
         verify(waitListRepository, never()).remove(reservation.id)
     }
+
+    @Test
+    fun `not promote reservations when the waitlist is empty`() {
+        val command = PromoteWaitListCommand(
+            from = LocalDateTime.parse("2021-10-10T10:00:00"),
+            to = LocalDateTime.parse("2021-10-10T12:00:00"),
+            maximumSeatingCapacity = 4
+        )
+
+        whenever(waitListRepository.findAll()).thenReturn(emptySet())
+
+        promoteWaitList.execute(command)
+
+        verifyNoInteractions(reservationRepository)
+        verifyNoInteractions(getFreeTables)
+    }
 }
