@@ -9,10 +9,10 @@ class WaitListInMemoryRepository : WaitListRepository {
         waitList.add(reservationId)
     }
 
-    override fun remove(reservationId: ReservationId) {
-        waitList.remove(reservationId)
+    override fun remove(reservationId: ReservationId): Boolean {
+        return waitList.remove(reservationId)
     }
-    
+
     override fun findAll(): Set<ReservationId> {
         return waitList.toSet()
     }

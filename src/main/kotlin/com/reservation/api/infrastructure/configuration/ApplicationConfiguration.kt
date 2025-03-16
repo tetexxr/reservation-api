@@ -44,8 +44,9 @@ class ApplicationConfiguration {
     fun cancelReservation(
         reservationRepository: ReservationRepository,
         reservationTableRepository: ReservationTableRepository,
-        waitListRepository: WaitListRepository
-    ) = CancelReservation(reservationRepository, reservationTableRepository, waitListRepository)
+        waitListRepository: WaitListRepository,
+        promoteWaitList: PromoteWaitList
+    ) = CancelReservation(reservationRepository, reservationTableRepository, waitListRepository, promoteWaitList)
 
     @Bean
     fun sendNotification(

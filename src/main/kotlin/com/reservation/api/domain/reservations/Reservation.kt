@@ -17,7 +17,7 @@ data class Reservation(
     }
 
     companion object {
-        private const val RESERVATION_DURATION_MINUTES: Long = 45
+        const val RESERVATION_DURATION_MINUTES: Long = 45
         fun create(
             time: LocalDateTime,
             customerDetails: CustomerDetails,
