@@ -37,7 +37,7 @@ class GetAvailableSlots(
                     availableSlots.add(AvailableSlot(slotTime, slotEndTime, query.partySize, table.number))
                     slotTime = slotEndTime
                 } else {
-                    val endTime = reservations.single { slotFilter(it) }.endTime
+                    val endTime = reservations.first { slotFilter(it) }.endTime
                     slotTime = endTime
                 }
             }
