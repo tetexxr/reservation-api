@@ -116,8 +116,7 @@ class ReservationShould {
     fun `get all reservations`() {
         (1..5).forEach {
             reservationRepository.insert(
-                Reservation(
-                    id = ReservationId.new(),
+                Reservation.create(
                     time = LocalDateTime.parse("2021-10-10T10:00:00"),
                     customerDetails = CustomerDetails(
                         name = "John $it",

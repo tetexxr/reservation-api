@@ -5,4 +5,5 @@ import com.reservation.api.domain.reservations.ReservationId
 interface WaitListRepository {
     fun add(reservationId: ReservationId)
     fun remove(reservationId: ReservationId)
+    fun findAll(): Set<ReservationId>
 }
