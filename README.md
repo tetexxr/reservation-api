@@ -1,3 +1,5 @@
+[![Spring Boot CI](https://github.com/tetexxr/reservation-api/actions/workflows/pipeline.yml/badge.svg)](https://github.com/tetexxr/reservation-api/actions/workflows/pipeline.yml)
+
 # Restaurant Reservation API
 
 ## Objective
