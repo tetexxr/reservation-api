@@ -85,6 +85,33 @@ class GetFreeTablesShould {
     }
 
     @Test
+    fun `return available tables when there are reservations`() {
+        val tables = listOf(
+            Table(TableNumber(1), 4),
+            Table(TableNumber(2), 4)
+        )
+        val reservations = listOf(
+            Reservation.create(
+                LocalDateTime.parse("2021-10-10T10:00:00"),
+                CustomerDetails("John", "john@test.com", "931111111"),
+                4
+            )
+        )
+        val reservedTables = mapOf(reservations[0].id to TableNumber(1))
+
+        whenever(tableRepository.findAll()).thenReturn(tables)
+        whenever(reservationRepository.findAll()).thenReturn(reservations)
+        whenever(reservationTableRepository.findAll()).thenReturn(reservedTables)
+
+        val query = GetFreeTablesQuery(LocalDateTime.parse("2021-10-10T10:05:00"), 4)
+        val result = getFreeTables.execute(query)
+
+        assertThat(result).containsExactly(
+            Table(TableNumber(2), 4)
+        )
+    }
+
+    @Test
     fun `return empty list when no tables are suitable`() {
         val tables = listOf(
             Table(TableNumber(1), 4),
