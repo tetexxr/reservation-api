@@ -8,7 +8,7 @@ data class Reservation(
     val customerDetails: CustomerDetails,
     val partySize: Int
 ) {
-    private val endTime: LocalDateTime
+    val endTime: LocalDateTime
         get() = time.plusMinutes(RESERVATION_DURATION_MINUTES)
 
     fun isOverlappingWith(otherTime: LocalDateTime): Boolean {
