@@ -109,7 +109,7 @@ class AvailabilityShould {
     }
 
     @Test
-    fun `get empty when np available slots`() {
+    fun `get empty when no available slots`() {
         val opening = LocalDateTime.parse("2021-10-10T08:00:00")
         (0..23).map {
             val time = opening.plusMinutes(45 * it.toLong())
