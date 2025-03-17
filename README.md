@@ -69,7 +69,7 @@ To use the API, access the following URL: http://localhost:8080/swagger-ui.html
 ## Decisions and possible improvements
 
 - In the specification, it was not clear how the tables should be allocated to the reservations. I decided to implement a simple algorithm that allocates the reservation to the table with the smallest capacity that fits the party size.
-- The opening hours of the restaurant are not defined in the specification. I decided to consider that the restaurant is open from 8:00 to 14:00 (to avoid too much results in the availability checker). but this should be changed to a more realistic scenario.
+- The opening hours of the restaurant are not defined in the specification. I decided to consider that the restaurant is open from 8:00 to 14:00 (to avoid too much results in the availability checker), but this should be changed to a more realistic scenario.
 - And related to the previous point, the opening hours should be considered when creating and updating a reservation, to avoid creating reservations outside the opening hours.
 - When a reservation that is in the waitlist is promoted, some notification should be sent to the customer. This feature was not implemented and not defined in the specification.
 - The repositories are using static lists to store the data. This should be changed to a database.
