@@ -14,8 +14,9 @@ class GetFreeTables(
         val tables = tableRepository.findAll()
         val overlappingReservations = reservationRepository.findAll()
             .filter { it.isOverlappingWith(query.reservationTime) }
+            .map { it.id }
         val reservedTables = reservationTableRepository.findAll()
-            .filter { it.key in overlappingReservations.map { reservation -> reservation.id } }
+            .filter { it.key in overlappingReservations }
             .map { it.value }
         val freeTables = tables
             .filter { table -> reservedTables.none { it == table.number } }
