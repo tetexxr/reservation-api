@@ -5,5 +5,5 @@ interface ReservationRepository {
     fun findById(reservationId: ReservationId): Reservation?
     fun update(reservation: Reservation)
     fun delete(reservationId: ReservationId)
-    fun findAll(): List<Reservation>
+    fun findAll(name: String? = null): List<Reservation>
 }

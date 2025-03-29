@@ -24,8 +24,25 @@ class ReservationInMemoryRepository : ReservationRepository {
         reservations.removeIf { it.id == reservationId }
     }
 
-    override fun findAll(): List<Reservation> {
-        return reservations.toList()
+    override fun findAll(name: String?): List<Reservation> {
+        return if (name == null) {
+            reservations.toList()
+        } else {
+            reservations.toList().filter { matches(it.customerDetails.name, name) }
+        }
+    }
+
+    private fun matches(customerName: String, name: String): Boolean {
+        var lastIndexFound = 0
+        name.forEach { c -> 
+            val position = customerName.indexOf(c, lastIndexFound, ignoreCase = true)
+            if (position != -1) {
+                lastIndexFound = position + 1
+            } else {
+                return false
+            }
+        }
+        return true
     }
 
     companion object {

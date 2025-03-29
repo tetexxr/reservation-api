@@ -146,4 +146,33 @@ class ReservationShould {
             .andExpect(jsonPath("$.items[0].name").value("John 1"))
             .andExpect(jsonPath("$.items[4].name").value("John 5"))
     }
+
+    @Test
+    fun `get all reservations by name`() {
+        insertReservation(0)
+        insertReservation(0)
+        insertReservation(1)
+
+        mvc
+            .perform(get("/v1/reservations").param("name", "John 0"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.items.size()").value(2))
+            .andExpect(jsonPath("$.total").value(2))
+            .andExpect(jsonPath("$.items[0].name").value("John 0"))
+            .andExpect(jsonPath("$.items[1].name").value("John 0"))
+    }
+
+    private fun insertReservation(numberToAdd: Int) {
+        reservationRepository.insert(
+            Reservation.create(
+                time = LocalDateTime.parse("2021-10-1${numberToAdd}T10:00:00"),
+                customerDetails = CustomerDetails(
+                    name = "John $numberToAdd",
+                    email = "john-$numberToAdd@test.com",
+                    phoneNumber = "931111111"
+                ),
+                partySize = 4
+            )
+        )
+    }
 }
